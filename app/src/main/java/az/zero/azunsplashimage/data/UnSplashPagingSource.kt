@@ -1,6 +1,7 @@
 package az.zero.azunsplashimage.data
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import az.zero.azunsplashimage.api.UnSplashApi
 
 private const val UNSPLASH_STARTING_PAGE_INDEX = 1
@@ -27,4 +28,6 @@ class UnSplashPagingSource(
             LoadResult.Error(e)
         }
     }
+
+    override fun getRefreshKey(state: PagingState<Int, UnSplashPhoto>): Int? = state.anchorPosition
 }
