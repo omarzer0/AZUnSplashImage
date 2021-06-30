@@ -11,13 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import az.zero.azunsplashimage.R
-import az.zero.azunsplashimage.data.UnSplashPhoto
 import az.zero.azunsplashimage.databinding.FragmentGalleryBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GalleryFragment : Fragment(R.layout.fragment_gallery),
-    UnSplashPhotoAdapter.OnItemClickListener {
+class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
     private val viewModel by viewModels<GalleryViewModel>()
     private var _binding: FragmentGalleryBinding? = null
@@ -27,7 +25,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentGalleryBinding.bind(view)
 
-        val adapter = UnSplashPhotoAdapter(this)
+        val adapter = UnSplashPhotoAdapter()
         binding.apply {
             recyclerView.setHasFixedSize(true)
             recyclerView.itemAnimator = null
@@ -62,6 +60,11 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
         }
 
         setHasOptionsMenu(true)
+
+        adapter.setOnPhotoItemClickListener { photo ->
+            val action = GalleryFragmentDirections.actionGalleryFragmentToDetailsFragment(photo)
+            findNavController().navigate(action)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -93,8 +96,8 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery),
         _binding = null
     }
 
-    override fun onItemClick(photo: UnSplashPhoto) {
-        val action = GalleryFragmentDirections.actionGalleryFragmentToDetailsFragment(photo)
-        findNavController().navigate(action)
-    }
+//    override fun onItemClick(photo: UnSplashPhoto) {
+//        val action = GalleryFragmentDirections.actionGalleryFragmentToDetailsFragment(photo)
+//        findNavController().navigate(action)
+//    }
 }

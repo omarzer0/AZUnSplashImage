@@ -11,7 +11,7 @@ import az.zero.azunsplashimage.databinding.ItemUnsplashPhotoBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
-class UnSplashPhotoAdapter(private val listener: OnItemClickListener) :
+class UnSplashPhotoAdapter :
     PagingDataAdapter<UnSplashPhoto, UnSplashPhotoAdapter.PhotoViewHolder>(PHOTO_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
@@ -30,15 +30,6 @@ class UnSplashPhotoAdapter(private val listener: OnItemClickListener) :
     inner class PhotoViewHolder(private val binding: ItemUnsplashPhotoBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.root.setOnClickListener {
-                val position = bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val item = getItem(position)
-                    if (item != null) listener.onItemClick(item)
-                }
-            }
-        }
 
         fun bind(photo: UnSplashPhoto) {
             binding.apply {
@@ -50,13 +41,22 @@ class UnSplashPhotoAdapter(private val listener: OnItemClickListener) :
                     .into(imageView)
 
                 textViewUserName.text = photo.user.name
+
+                root.setOnClickListener {
+                    onPhotoItemClickListener?.let { it(photo) }
+                }
             }
         }
     }
 
-    interface OnItemClickListener {
-        fun onItemClick(photo: UnSplashPhoto)
+    private var onPhotoItemClickListener: ((UnSplashPhoto) -> Unit)? = null
+    fun setOnPhotoItemClickListener(listener: (UnSplashPhoto) -> Unit) {
+        onPhotoItemClickListener = listener
     }
+
+//    interface OnItemClickListener {
+//        fun onItemClick(photo: UnSplashPhoto)
+//    }
 
     companion object {
         private val PHOTO_COMPARATOR = object : DiffUtil.ItemCallback<UnSplashPhoto>() {
