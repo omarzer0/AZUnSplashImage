@@ -1,8 +1,6 @@
 package az.zero.azunsplashimage.data
 
-import android.content.res.Resources
 import android.os.Parcelable
-import az.zero.azunsplashimage.R
 
 @kotlinx.parcelize.Parcelize
 data class UnSplashPhoto(
@@ -14,9 +12,10 @@ data class UnSplashPhoto(
     @kotlinx.parcelize.Parcelize
     data class UnSplashPhotoUrls(
         val raw: String,
+        val full: String,
         val regular: String,
         val small: String,
-        val thumb: String,
+        val thumb: String
     ) : Parcelable
 
     @kotlinx.parcelize.Parcelize
@@ -25,8 +24,6 @@ data class UnSplashPhoto(
         val username: String
     ) : Parcelable {
         val attributionUrl
-            get() = "https://unsplash.com/$username?utm_source-${
-                Resources.getSystem().getString(R.string.app_name)
-            }&utm_medium-referral"
+            get() = "https://unsplash.com/$username?utm_source-AZUnSplashImage&utm_medium-referral"
     }
 }

@@ -23,7 +23,7 @@ class UnSplashPhotoLoadStateAdapter(private val retry: () -> Unit) :
         holder.bind(loadState)
     }
 
-    // inner to access parent properties or we can pass it to the constructor
+    // inner to access parent properties or we can pass it to viewHolder constructor
     inner class LoadStateViewHolder(private val binding: UnsplashPhotoLoadStateFooterBinding) :
         RecyclerView.ViewHolder(binding.root) {
 

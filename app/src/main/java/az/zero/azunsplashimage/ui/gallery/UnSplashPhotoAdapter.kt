@@ -11,7 +11,7 @@ import az.zero.azunsplashimage.databinding.ItemUnsplashPhotoBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
-class UnSplashPhotoAdapter :
+class UnSplashPhotoAdapter(private val listener: OnItemClickListener) :
     PagingDataAdapter<UnSplashPhoto, UnSplashPhotoAdapter.PhotoViewHolder>(PHOTO_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
@@ -26,8 +26,19 @@ class UnSplashPhotoAdapter :
         if (currentItem != null) holder.bind(currentItem)
     }
 
-    class PhotoViewHolder(private val binding: ItemUnsplashPhotoBinding) :
+    // inner to access parent properties or we can pass it to viewHolder constructor
+    inner class PhotoViewHolder(private val binding: ItemUnsplashPhotoBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = getItem(position)
+                    if (item != null) listener.onItemClick(item)
+                }
+            }
+        }
 
         fun bind(photo: UnSplashPhoto) {
             binding.apply {
@@ -41,6 +52,10 @@ class UnSplashPhotoAdapter :
                 textViewUserName.text = photo.user.name
             }
         }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(photo: UnSplashPhoto)
     }
 
     companion object {
