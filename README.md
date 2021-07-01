@@ -12,6 +12,7 @@ App for searching wonderful images using [UnSplash Api](https://unsplash.com/)
   - Lifecycle - dispose of observing data when lifecycle state changes.
   - ViewModel - UI related data holder, lifecycle aware.
   - ViewBinding - Interact with XML views in safeway and avoid findViewById() 
+  - Navigation Component - Make it easy to navigate betwwen different screens and pass data in type-safe way
 - Architecture
   - MVVM Architecture (View - ViewModel - Model)
   - Repository pattern
